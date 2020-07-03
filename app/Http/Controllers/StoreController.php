@@ -28,7 +28,6 @@ class StoreController extends Controller
         $jsonFile = Storage::get('DEV_Sales_full.json');
         $decodeJson = json_decode($jsonFile);
 
-        //dd($decodeJson);
         foreach ($decodeJson as $record) {
             // populate products table
             $product = Product::firstOrCreate(
@@ -67,7 +66,6 @@ class StoreController extends Controller
         }
 
         return redirect('/')->with('success', 'The JSON file has been loaded to the Database');
-
     }
 
     /**
@@ -88,7 +86,6 @@ class StoreController extends Controller
         if ($request->has('price_from') && !is_null($request->input('price_from'))) {
             $salesQuery->where('price', '>=', $request->input('price_from'));
         }
-
         if ($request->has('price_to') && !is_null($request->input('price_to'))) {
             $salesQuery->where('price', '<=', $request->input('price_to'));
         }
