@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Customer;
 use App\Product;
 use App\Sale;
+use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
@@ -96,6 +97,19 @@ class StoreController extends Controller
 
         $customers = Customer::all();
         $products = Product::all();
+
+        $sales->map(function ($sale) {
+            $version = explode('+', $sale->version);
+            $compareVersion = version_compare($version[0], '1.0.17');
+
+            if ($compareVersion === -1 || ($compareVersion === 0 && $version[1] < 60)) {
+                $saleDate = Carbon::createFromFormat('Y-m-d H:i:s', $sale->sale_date,'Europe/Berlin');
+                $saleDate->setTimezone('UTC');
+                $sale->new_date = $saleDate;
+            }else{
+                $sale->new_date = $sale->sale_date;
+            }
+        });
 
         return view('sales',
             compact('sales', 'salesSum', 'customers', 'products', 'saleTotal'));

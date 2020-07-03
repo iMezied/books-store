@@ -112,7 +112,8 @@
                     <th>Product</th>
                     <th>Customer</th>
                     <th>Price</th>
-                    <th>Date</th>
+                    <th>Date Origin</th>
+                    <th>Date Updated</th>
                 </tr>
                 @if($sales)
                     @foreach($sales as $sale)
@@ -122,19 +123,20 @@
                             <td>{{ $sale->customer->customer_name }}</td>
                             <td>{{ $sale->price }}</td>
                             <td>{{ $sale->sale_date }}</td>
+                            <td>{{ $sale->new_date }}</td>
                         </tr>
                     @endforeach
                     <tr>
-                        <th colspan="4">Total</th>
+                        <th colspan="5">Total</th>
                         <td><strong>{{ $salesSum }}</strong></td>
                     </tr>
                     <tr>
-                        <th colspan="4">Results Count</th>
+                        <th colspan="5">Results Count</th>
                         <td><strong>{{ $saleTotal }}</strong></td>
                     </tr>
                 @else
                     <tr>
-                        <td colspan="5">There is no sales</td>
+                        <td colspan="6">There is no sales</td>
                     </tr>
                 @endif
             </table>
